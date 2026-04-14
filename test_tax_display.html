@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tax Display Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .test-section { margin-bottom: 30px; }
+        .success { color: green; }
+        .error { color: red; }
+        .info { color: blue; }
+    </style>
+</head>
+<body>
+    <h1>Tax Configuration Display Test</h1>
+    
+    <div id="test-results"></div>
+    
+    <script>
+        // First load the tax configuration script to access the state
+        const script = document.createElement('script');
+        script.src = '/static/tax-configuration.js?v=24&t=' + Date.now();
+        
+        script.onload = function() {
+            const results = document.getElementById('test-results');
+            let html = '<div class="test-section">';
+            
+            // Check if taxConfigurationState exists
+            if (typeof taxConfigurationState !== 'undefined') {
+                html += '<p class="success">✓ taxConfigurationState is defined</p>';
+                
+                // Check the statesTaxes property
+                if (taxConfigurationState.statesTaxes === null) {
+                    html += '<p class="success">✓ statesTaxes is null (will use defaults)</p>';
+                } else if (taxConfigurationState.statesTaxes) {
+                    html += '<p class="error">✗ statesTaxes is already set with data:</p>';
+                    html += '<pre>' + JSON.stringify(taxConfigurationState.statesTaxes, null, 2) + '</pre>';
+                } else {
+                    html += '<p class="info">ℹ statesTaxes is undefined</p>';
+                }
+                
+                // Now test the generateStateTaxConfigurationPanel function
+                if (typeof generateStateTaxConfigurationPanel === 'function') {
+                    html += '<p class="success">✓ generateStateTaxConfigurationPanel function exists</p>';
+                    
+                    // Call the function and extract the rates from the HTML
+                    const panelHTML = generateStateTaxConfigurationPanel();
+                    
+                    // Check for the new rates in the HTML
+                    const rates = {
+                        'NY 4.1%': panelHTML.includes('4.1%'),
+                        'NJ 3.1%': panelHTML.includes('3.1%'),
+                        'MA 2.13%': panelHTML.includes('2.13%'),
+                        'NH 2.7%': panelHTML.includes('2.7%')
+                    };
+                    
+                    const wageBases = {
+                        '$12,800': panelHTML.includes('$12,800'),
+                        '$43,300': panelHTML.includes('$43,300'),
+                        '$15,000': panelHTML.includes('$15,000'),
+                        '$14,000': panelHTML.includes('$14,000')
+                    };
+                    
+                    html += '<h3>Rate Check:</h3>';
+                    for (const [rate, found] of Object.entries(rates)) {
+                        if (found) {
+                            html += '<p class="success">✓ Found rate: ' + rate + '</p>';
+                        } else {
+                            html += '<p class="error">✗ Missing rate: ' + rate + '</p>';
+                        }
+                    }
+                    
+                    html += '<h3>Wage Base Check:</h3>';
+                    for (const [base, found] of Object.entries(wageBases)) {
+                        if (found) {
+                            html += '<p class="success">✓ Found wage base: ' + base + '</p>';
+                        } else {
+                            html += '<p class="error">✗ Missing wage base: ' + base + '</p>';
+                        }
+                    }
+                    
+                    // Check for the new labels
+                    if (panelHTML.includes('New employer rate 2025')) {
+                        html += '<p class="success">✓ Found "New employer rate 2025" label</p>';
+                    } else {
+                        html += '<p class="error">✗ Missing "New employer rate 2025" label</p>';
+                    }
+                    
+                    if (panelHTML.includes('Per employee annually')) {
+                        html += '<p class="success">✓ Found "Per employee annually" label</p>';
+                    } else {
+                        html += '<p class="error">✗ Missing "Per employee annually" label</p>';
+                    }
+                    
+                } else {
+                    html += '<p class="error">✗ generateStateTaxConfigurationPanel function not found</p>';
+                }
+                
+            } else {
+                html += '<p class="error">✗ taxConfigurationState is not defined</p>';
+            }
+            
+            html += '</div>';
+            html += '<div class="test-section"><h3>Script URL:</h3><p>' + script.src + '</p></div>';
+            
+            results.innerHTML = html;
+        };
+        
+        script.onerror = function() {
+            document.getElementById('test-results').innerHTML = '<p class="error">Failed to load tax-configuration.js</p>';
+        };
+        
+        document.head.appendChild(script);
+    </script>
+</body>
+</html>

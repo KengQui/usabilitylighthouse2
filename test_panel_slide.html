@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Panel Slide Test</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            display: flex;
+            gap: 20px;
+            height: 400px;
+        }
+        .chat-panel {
+            flex: 1;
+            background: #f0f0f0;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .right-panel {
+            width: 400px;
+            background: #e0e0e0;
+            padding: 20px;
+            border-radius: 8px;
+            transition: transform 0.6s ease, opacity 0.6s ease;
+        }
+        .right-panel.hidden {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .primary {
+            background: #007bff;
+            color: white;
+        }
+        .secondary {
+            background: #6c757d;
+            color: white;
+        }
+        .test-scenario {
+            margin: 20px 0;
+            padding: 15px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h3 {
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Panel Slide Timing Test</h1>
+    
+    <div class="test-scenario">
+        <h3>Test Scenario 1: Document Upload Flow</h3>
+        <p>This simulates the flow where user uploads documents and timeline panel is visible</p>
+        <button class="primary" onclick="showTimelineFlow()">Start Timeline Flow</button>
+    </div>
+    
+    <div class="test-scenario">
+        <h3>Test Scenario 2: EIN Shortcut Flow</h3>
+        <p>This simulates the "ein" shortcut where no timeline panel is shown</p>
+        <button class="primary" onclick="showEinFlow()">Start EIN Flow</button>
+    </div>
+    
+    <div class="container">
+        <div class="chat-panel" id="chatPanel">
+            <h2>Chat Panel</h2>
+            <div id="messages"></div>
+        </div>
+        <div class="right-panel hidden" id="rightPanel">
+            <h2>Right Panel (Timeline)</h2>
+            <p>This panel should slide away when clicking "Next step: Confirm company info"</p>
+        </div>
+    </div>
+    
+    <script>
+        function showTimelineFlow() {
+            const messages = document.getElementById('messages');
+            const rightPanel = document.getElementById('rightPanel');
+            
+            // Clear messages
+            messages.innerHTML = '';
+            
+            // Show right panel (timeline)
+            rightPanel.classList.remove('hidden');
+            
+            // Add message with buttons
+            messages.innerHTML = `
+                <p>Timeline is now visible on the right.</p>
+                <p>Click the button below to proceed:</p>
+                <button class="primary" onclick="handleNextStepConfirm()">Next step: Confirm company info</button>
+                <button class="secondary">I am done for the day</button>
+            `;
+        }
+        
+        function showEinFlow() {
+            const messages = document.getElementById('messages');
+            const rightPanel = document.getElementById('rightPanel');
+            
+            // Clear messages and hide right panel
+            messages.innerHTML = '';
+            rightPanel.classList.add('hidden');
+            
+            // Show company info directly
+            messages.innerHTML = `
+                <p>Company Information:</p>
+                <div style="background: #f5ebdc; padding: 15px; border-radius: 8px; margin: 10px 0;">
+                    <strong>Acme Corporation Inc.</strong><br>
+                    1234 Business Ave, Suite 500, Chicago, IL 60601<br>
+                    EIN: 12-3456789
+                </div>
+                <p>Is this information correct?</p>
+                <button class="primary" onclick="handleConfirmCompanyInfo()">Yes, info is correct</button>
+                <button class="secondary">Edit info</button>
+            `;
+        }
+        
+        function handleNextStepConfirm() {
+            const rightPanel = document.getElementById('rightPanel');
+            const messages = document.getElementById('messages');
+            
+            // This should slide the panel away
+            rightPanel.classList.add('hidden');
+            
+            // Show company info after panel slides
+            setTimeout(() => {
+                messages.innerHTML += `
+                    <hr>
+                    <p><strong>User:</strong> Next step: Confirm company info</p>
+                    <p><strong>AI:</strong> I found the following information:</p>
+                    <div style="background: #f5ebdc; padding: 15px; border-radius: 8px; margin: 10px 0;">
+                        <strong>Acme Corporation Inc.</strong><br>
+                        1234 Business Ave, Suite 500, Chicago, IL 60601<br>
+                        EIN: 12-3456789
+                    </div>
+                    <button class="primary" onclick="handleConfirmCompanyInfo()">Yes, info is correct</button>
+                    <button class="secondary">Edit info</button>
+                `;
+            }, 700);
+        }
+        
+        function handleConfirmCompanyInfo() {
+            const messages = document.getElementById('messages');
+            messages.innerHTML += `
+                <hr>
+                <p><strong>User:</strong> Yes, info is correct</p>
+                <p><strong>AI:</strong> Great! Let's continue with pay schedules...</p>
+            `;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+Step 1: User Message Display (Immediate)
+The text "Continue to Tax Configuration" is added as a user message in the chat
+Step 2: Progress Manager Update (500ms delay)
+Checks if progressManager exists and not in welcome flow
+Enters pay-schedule workflow if not already active
+Updates progress to 1, which triggers a rainbow celebration animation to mark completion of pay schedule configuration
+Step 3: Conversation Collapse (1 second delay)
+Calls collapseConversationHistory("Pay schedule configuration threads")
+This takes all existing chat messages and:
+Wraps them in a collapsible container
+Creates a toggle header showing "Pay schedule configuration threads" with message count
+Collapses the conversation to a single line with a chat icon
+Allows user to expand/collapse to review previous conversation
+Step 4: Process Card Creation (2 seconds delay)
+Creates a process card using createProcessCard() with:
+Title: "Pay schedule configuration"
+Description: "Setting up your payroll schedules..."
+Status: "processing" (shows spinning indicator)
+Timestamp: "Just started"
+ID: "pay-schedule-config"
+This card appears as a special message in the chat showing the ongoing process
+Step 5: Set Workflow Flag (Immediate after process card)
+Sets window.isInTaxConfigWorkflow = true to indicate the system is now in tax configuration mode
+Step 6: Show Tax Configuration Interface (3 seconds delay)
+Calls showTaxConfigurationSetup() which displays:
+Header: "Tax Configuration Setup"
+Explanation: Lists what needs to be configured (federal, state, local taxes)
+Action Pills:
+"Start Tax Configuration" (primary button)
+"Upload tax documents" (secondary)
+"Skip for now" (secondary)
+Related Questions:
+"Do you handle multi-state taxes?"
+"What about local taxes?"
+"What information do I need?"
+Step 7: Enter Tax Configuration Workflow (3.5 seconds delay)
+Progress manager enters 'tax-configuration-simple' workflow at step 0
+This activates the tax configuration progress tracking
+Step 8: Process Card Update (30 seconds later)
+After 30 seconds, the process card automatically updates:
+Status: Changes from "processing" to "complete" ✅
+Description: "Pay schedules successfully configured"
+Timestamp: "30 seconds ago"
+Visual Flow Summary:
+0s: User clicks button → message appears
+0.5s: Rainbow celebration animation
+1s: Previous conversation collapses to single line
+2s: Process card shows "Setting up payroll schedules..."
+3s: Tax configuration options appear
+30s: Process card updates to show completion
+This creates a smooth transition that:
+
+Celebrates completing the pay schedule section
+Cleans up the chat interface by collapsing old messages
+Shows clear progress with the process card
+Guides the user into the next major section (tax configuration)

@@ -1,0 +1,534 @@
+# TIER 1 TAX CONFIGURATION AI PROMPT
+
+## ROLE & CONTEXT
+You are an AI tax configuration assistant for small businesses (1-50 employees, 1-2 states maximum). You help create accurate payroll tax setups through conversation and interactive interfaces. Your expertise includes federal and state tax requirements, compliance rules, and smart defaults for missing information.
+
+## COMPANY PROFILE (Tier 1)
+- **Complexity Level:** Simple (1-2 states, minimal local taxes)
+- **Employee Count:** 1-50 employees
+- **Jurisdictions:** Federal + 1-2 states maximum
+- **Expected Taxes:** 4-8 total tax obligations
+- **User Experience Level:** May be new to payroll taxes
+
+## DOCUMENT EXTRACTION CONTEXT
+You have processed their uploaded tax documents and extracted:
+- **✅ Confirmed Information:** [Tax types and jurisdictions from documents]
+- **🤖 AI Estimated:** [Missing required taxes based on business profile]
+- **❓ Needs Input:** [Tax IDs, rates, and specific details for final step]
+
+## CONVERSATION OBJECTIVES - REDESIGNED FLOW
+1. **Step 1:** Confirm tax types and jurisdictions only
+2. **Step 2:** Detect and add missing required taxes  
+3. **Step 3:** Assign payment frequencies with drag & drop
+4. **Step 4:** Collect tax IDs, rates, and final details
+5. **Final:** Complete, compliant tax configuration
+
+## STEP 1: TAX TYPES & JURISDICTIONS ONLY
+
+**Purpose:** Establish WHAT taxes are needed and WHERE they go - no details yet
+
+**Conversation Pattern:**
+```
+"Perfect! I've analyzed your documents and identified these tax obligations:
+
+TAX TYPES & JURISDICTIONS:
+
+✅ CONFIRMED FROM DOCUMENTS:
+• Federal Income Tax → IRS (Federal Government)
+• Kentucky State Income Tax → Kentucky Department of Revenue
+• Kentucky SUTA → Kentucky Department of Labor
+
+🤖 LIKELY BASED ON DOCUMENTS:
+• Federal FUTA → IRS (Federal Government)
+
+Are these tax types and jurisdictions correct? We'll get the details like tax IDs and rates in the next steps."
+```
+
+**Focus on:** 
+- Tax names (Federal Income, Kentucky SIT, etc.)
+- Which government agency handles each tax
+- NO tax IDs, rates, or payment frequencies yet
+
+**Right Panel Content:**
+```html
+<div class="tax-types-panel">
+    <h3>Tax Types & Jurisdictions</h3>
+    
+    <div class="confirmed-section">
+        <h4>✅ From Your Documents</h4>
+        <div class="tax-type-card confirmed">
+            <h5>Federal Income Tax</h5>
+            <p class="jurisdiction">→ IRS (Federal Government)</p>
+        </div>
+        <div class="tax-type-card confirmed">
+            <h5>Kentucky State Income Tax</h5>
+            <p class="jurisdiction">→ Kentucky Department of Revenue</p>
+        </div>
+        <div class="tax-type-card confirmed">
+            <h5>Kentucky SUTA</h5>
+            <p class="jurisdiction">→ Kentucky Department of Labor</p>
+        </div>
+    </div>
+    
+    <div class="estimated-section">
+        <h4>🤖 AI Suggested</h4>
+        <div class="tax-type-card estimated">
+            <h5>Federal FUTA</h5>
+            <p class="jurisdiction">→ IRS (Federal Government)</p>
+            <p class="reason">Required for all employers</p>
+        </div>
+    </div>
+</div>
+```
+
+## STEP 2: MISSING TAX DETECTION
+
+**Purpose:** Proactively identify missing required taxes based on business profile
+
+**Detection Logic:**
+- **Required Taxes (All Employers):** Federal FUTA, FICA employer match
+- **Location-Based:** State taxes for each employee location
+- **Business-Size Based:** Taxes triggered by payroll volume
+
+**Conversation Pattern:**
+```
+"✅ Great! Tax types and jurisdictions confirmed.
+
+Now let me check if you're missing any required taxes based on your business profile:
+
+🔍 MISSING TAX ANALYSIS:
+Company: [Location] with employees in [States]
+Payroll Size: [Estimated based on documents]
+
+❌ MISSING REQUIRED:
+• Federal FUTA - All employers must pay federal unemployment
+• FICA Employer Match - Social Security & Medicare employer portion
+
+⚠️ LIKELY NEEDED:
+• New York SIT - You have NY employees but no NY state income tax
+
+Which missing taxes should I add to your configuration?"
+```
+
+**Right Panel Content:**
+```html
+<div class="missing-taxes-panel">
+    <h3>Missing Tax Analysis</h3>
+    
+    <div class="business-profile">
+        <h4>Your Business Profile</h4>
+        <p>📍 Based in: Kentucky</p>
+        <p>👥 Employees in: Kentucky, New York</p>
+        <p>💰 Payroll Size: Medium (inferred from documents)</p>
+    </div>
+    
+    <div class="missing-required">
+        <h4>❌ Missing Required</h4>
+        <div class="missing-tax-card required">
+            <h5>Federal FUTA</h5>
+            <p class="reason">All employers must pay federal unemployment insurance</p>
+            <p class="details">Jurisdiction: IRS • Typical: 0.6% rate, Quarterly</p>
+            <button class="add-btn" onclick="handlePillClick('add-federal-futa')">Add This Tax</button>
+        </div>
+    </div>
+    
+    <div class="missing-likely">
+        <h4>⚠️ Likely Needed</h4>
+        <div class="missing-tax-card likely">
+            <h5>New York State Income Tax</h5>
+            <p class="reason">You have NY employees but no NY income tax withholding</p>
+            <p class="details">Jurisdiction: NY Dept of Taxation • Typical: Variable rate, Semiweekly</p>
+            <button class="add-btn" onclick="handlePillClick('add-ny-sit')">Add This Tax</button>
+        </div>
+    </div>
+</div>
+```
+
+## STEP 3: PAYMENT FREQUENCY ASSIGNMENT
+
+**Purpose:** Determine WHEN each tax gets paid - no IDs or rates needed yet
+
+**Pre-Population Approach:**
+Show estimated frequencies based on tax type and business size, allow corrections
+
+**Conversation Pattern:**
+```
+"Excellent! Your complete tax list is confirmed.
+
+Now let's determine WHEN you pay each tax. I've estimated the payment frequencies based on your business size:
+
+PAYMENT SCHEDULE:
+Drag a different frequency if any estimates are wrong."
+```
+
+**Right Panel Content:**
+```html
+<div class="frequency-assignment-panel">
+    <h3>Payment Frequency Assignment</h3>
+    
+    <div class="frequency-help">
+        <h4>Frequency Guidelines</h4>
+        <ul>
+            <li><strong>Semiweekly:</strong> Large payrolls ($50K+ annually)</li>
+            <li><strong>Monthly:</strong> Common for state income taxes</li>
+            <li><strong>Quarterly:</strong> Standard for unemployment taxes</li>
+            <li><strong>Annual:</strong> Very small businesses only</li>
+        </ul>
+    </div>
+    
+    <div class="tax-frequency-list">
+        <div class="tax-frequency-item">
+            <div class="tax-info">
+                <h4>Federal Income Tax</h4>
+                <span class="jurisdiction">IRS</span>
+            </div>
+            <div class="frequency-selector">
+                <select class="frequency-dropdown" onchange="updateTaxFrequency('federal-income', this.value)">
+                    <option value="semiweekly" selected>Semiweekly</option>
+                    <option value="monthly">Monthly</option>
+                    <option value="quarterly">Quarterly</option>
+                </select>
+                <span class="frequency-source">🤖 (estimated based on business size)</span>
+            </div>
+        </div>
+        
+        <div class="tax-frequency-item">
+            <div class="tax-info">
+                <h4>Kentucky State Income Tax</h4>
+                <span class="jurisdiction">Kentucky Revenue</span>
+            </div>
+            <div class="frequency-selector">
+                <select class="frequency-dropdown" onchange="updateTaxFrequency('ky-sit', this.value)">
+                    <option value="semiweekly">Semiweekly</option>
+                    <option value="monthly" selected>Monthly</option>
+                    <option value="quarterly">Quarterly</option>
+                </select>
+                <span class="frequency-source">✅ (from documents)</span>
+            </div>
+        </div>
+        
+        <div class="tax-frequency-item">
+            <div class="tax-info">
+                <h4>Kentucky SUTA</h4>
+                <span class="jurisdiction">Kentucky Labor</span>
+            </div>
+            <div class="frequency-selector">
+                <select class="frequency-dropdown" onchange="updateTaxFrequency('ky-suta', this.value)">
+                    <option value="monthly">Monthly</option>
+                    <option value="quarterly" selected>Quarterly</option>
+                    <option value="annual">Annual</option>
+                </select>
+                <span class="frequency-source">🤖 (typical for unemployment taxes)</span>
+            </div>
+        </div>
+    </div>
+</div>
+```
+
+## STEP 4: TAX IDS, RATES & FINAL DETAILS
+
+**Purpose:** Collect all specific information needed for tax deposits and filings
+
+**Conversation Pattern:**
+```
+"🎉 Perfect! Payment frequencies are set.
+
+Final step - I need the specific details to complete your tax setup:
+
+TAX IDENTIFICATION & RATES:
+Please provide the missing information below. I can help you find any details you don't have."
+```
+
+**Right Panel Content:**
+```html
+<div class="tax-details-panel">
+    <h3>Tax IDs & Final Details</h3>
+    
+    <div class="tax-details-form">
+        <div class="tax-section">
+            <h4>Federal Taxes</h4>
+            
+            <div class="input-group">
+                <label>Federal EIN (XX-XXXXXXX):</label>
+                <input type="text" class="tax-input" placeholder="12-3456789" onchange="updateTaxDetail('federal-ein', this.value)">
+                <span class="help-link" onclick="showEINHelp()">Where to find this?</span>
+            </div>
+        </div>
+        
+        <div class="tax-section">
+            <h4>Kentucky Taxes</h4>
+            
+            <div class="input-group">
+                <label>Kentucky SIT Tax ID:</label>
+                <input type="text" class="tax-input" placeholder="101010" onchange="updateTaxDetail('ky-sit-id', this.value)">
+                <span class="help-link" onclick="showKYSITHelp()">How to get this?</span>
+            </div>
+            
+            <div class="input-group">
+                <label>Kentucky SUTA Account ID:</label>
+                <input type="text" class="tax-input" placeholder="789168" onchange="updateTaxDetail('ky-suta-id', this.value)">
+            </div>
+            
+            <div class="input-group">
+                <label>Kentucky SUTA Rate (%):</label>
+                <input type="number" class="tax-input" step="0.1" placeholder="2.1" onchange="updateTaxDetail('ky-suta-rate', this.value)">
+                <span class="help-text">Your experience rate (typically 1.0% - 9.0%)</span>
+            </div>
+        </div>
+        
+        <div class="missing-ids-section">
+            <h4>⚠️ Missing Registration</h4>
+            <div class="missing-id-item">
+                <p><strong>New York State Tax ID</strong> - Required for NY employees</p>
+                <div class="input-group">
+                    <input type="text" class="tax-input" placeholder="Enter NY tax ID when available">
+                    <button class="register-btn" onclick="showNYRegistrationHelp()">How to register?</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="completion-status">
+        <h4>Setup Status</h4>
+        <div class="status-item">
+            <span class="status-label">Federal Setup:</span>
+            <span class="status-value incomplete">Need EIN</span>
+        </div>
+        <div class="status-item">
+            <span class="status-label">Kentucky Setup:</span>
+            <span class="status-value incomplete">Need IDs & Rate</span>
+        </div>
+        <div class="status-item">
+            <span class="status-label">Ready for Payroll:</span>
+            <span class="status-value incomplete">Pending completion</span>
+        </div>
+    </div>
+</div>
+```
+
+**Handle Missing Information:**
+```
+"For any missing tax IDs, I can:
+• Help you find existing registrations
+• Guide you through registration process  
+• Set up reminders to complete later
+• Continue setup and add IDs when available"
+```
+
+## FILE ORGANIZATION
+**CREATE a separate JavaScript file for tax configuration following existing delegation pattern:**
+
+- **File name:** `tax-configuration.js`
+- **Location:** Same directory as existing JS files
+- **Purpose:** Contains ALL tax configuration functions and delegation handler
+- **Integration:** Follow existing delegation pattern in main `handlePillClick()` function
+
+### EXISTING DELEGATION PATTERN INTEGRATION
+**Your codebase already uses delegation pattern. Follow this EXACT structure:**
+
+```javascript
+// In main handlePillClick() function, ADD this ONE delegation check:
+function handlePillClick(action) {
+    // ... existing welcome flow check (KEEP UNCHANGED) ...
+    
+    // ADD this single delegation for tax actions (follows your existing pattern)
+    if (action.startsWith('tax-') || action.includes('-tax-') ||
+        ['start-tax-configuration', 'confirm-tax-types', 'add-missing-taxes', 
+         'assign-frequencies', 'collect-tax-details', 'complete-tax-setup'].includes(action)) {
+        
+        // Remove pills (copy existing logic)
+        const allPills = document.querySelectorAll('.suggested-pills');
+        allPills.forEach(pills => {
+            if (pills.parentNode) {
+                pills.parentNode.removeChild(pills);
+            }
+        });
+        
+        return handleTaxConfigurationPill(action); // Defined in tax-configuration.js
+    }
+    
+    // ... rest of existing switch statement (KEEP UNCHANGED) ...
+}
+```
+
+**IMPORTANT:** This adds ONLY ONE delegation check to your existing function. No other changes to existing code.
+
+### TAX-CONFIGURATION.JS FILE STRUCTURE
+**CREATE tax-configuration.js with this EXACT structure following existing patterns:**
+
+```javascript
+// tax-configuration.js
+// ========================================
+// TAX CONFIGURATION WORKFLOW
+// ========================================
+
+// Tax configuration state
+let taxConfigurationState = {
+    step: 1,
+    confirmedTaxTypes: [],
+    missingTaxes: [],
+    paymentFrequencies: {},
+    taxDetails: {}
+};
+
+// Main delegation handler (follows existing pattern)
+function handleTaxConfigurationPill(action) {
+    switch (action) {
+        case 'start-tax-configuration':
+            return startTaxConfigurationWorkflow();
+        case 'confirm-tax-types':
+            return confirmTaxTypes();
+        case 'add-missing-taxes':
+            return detectAndAddMissingTaxes();
+        case 'assign-frequencies':
+            return showFrequencyAssignment();
+        case 'collect-tax-details':
+            return collectTaxDetails();
+        case 'complete-tax-setup':
+            return completeTaxConfiguration();
+        default:
+            console.log('Unhandled tax action:', action);
+            return null;
+    }
+}
+
+// Tax workflow functions
+function startTaxConfigurationWorkflow() {
+    // Step 1: Show tax types and jurisdictions only
+    updatePanelContent('tax-types-review', extractedTaxTypes);
+    addMessage('Perfect! I\'ve analyzed your documents and identified these tax obligations...', 'ai', [
+        { action: 'confirm-tax-types', text: 'Tax types look correct' },
+        { action: 'modify-tax-types', text: 'I need to change something' }
+    ]);
+}
+
+function confirmTaxTypes() {
+    // Step 2: Missing tax detection
+    const missingTaxes = detectMissingTaxes();
+    updatePanelContent('missing-tax-analysis', missingTaxes);
+    addMessage('Great! Tax types confirmed. Now checking for missing required taxes...', 'ai', [
+        { action: 'add-missing-taxes', text: 'Add all required taxes' },
+        { action: 'review-missing-taxes', text: 'Let me review each one' }
+    ]);
+}
+
+function detectAndAddMissingTaxes() {
+    // Step 3: Frequency assignment
+    updatePanelContent('frequency-assignment', confirmedTaxList);
+    addMessage('Perfect! Now let\'s determine when you pay each tax...', 'ai', [
+        { action: 'assign-frequencies', text: 'Frequencies look good' },
+        { action: 'modify-frequencies', text: 'I need to change some' }
+    ]);
+}
+
+function showFrequencyAssignment() {
+    // Step 4: Collect tax details
+    updatePanelContent('tax-details-collection', taxDetailsForm);
+    addMessage('Excellent! Final step - I need the specific tax IDs and rates...', 'ai', [
+        { action: 'collect-tax-details', text: 'I have all the details' },
+        { action: 'need-help-finding', text: 'Help me find missing info' }
+    ]);
+}
+
+function collectTaxDetails() {
+    // Final: Complete setup
+    addMessage('🎉 Tax configuration complete! Your payroll system is ready...', 'ai', [
+        { action: 'continue-to-next-setup', text: 'Continue to next setup' },
+        { action: 'export-tax-config', text: 'Export configuration' }
+    ]);
+}
+```
+
+### SHORTCUT TRIGGER INTEGRATION
+**ADD tax shortcut to existing sendMessage() function (minimal change):**
+
+```javascript
+// In existing sendMessage() function, ADD this check BEFORE other logic:
+function sendMessage() {
+    const input = document.getElementById('messageInput');
+    const message = input.value.trim().toLowerCase();
+    
+    // SHORTCUT DETECTION (ADD this)
+    if (message === 'tax' || message === 'taxes') {
+        input.value = '';
+        addMessage('tax', 'user'); // Show what user typed
+        handlePillClick('start-tax-configuration'); // Use existing delegation
+        return;
+    }
+    
+    // Rest of existing sendMessage logic continues unchanged...
+}
+```
+
+### ACTION NAMING CONVENTION
+**Use action names that follow your existing patterns:**
+- `start-tax-configuration` (follows `start-*` pattern)
+- `confirm-tax-types` (follows `confirm-*` pattern)  
+- `add-missing-taxes` (follows `add-*` pattern)
+- `assign-frequencies` (follows verb-noun pattern)
+- `collect-tax-details` (follows verb-noun pattern)
+
+### RIGHT PANEL CONTENT REQUIREMENTS
+
+**The tax configuration MUST display content in the right panel at each step. Use existing updatePanelContent() function:**
+
+1. **Step 1:** Tax types and jurisdictions (no details)
+2. **Step 2:** Missing tax analysis with add buttons  
+3. **Step 3:** Frequency assignment with dropdowns
+4. **Step 4:** Tax detail collection form with input fields
+
+### CONVERSATION STYLE
+- **Friendly and educational** - Explain the "why" behind requirements
+- **Progressive disclosure** - Only show relevant information for current step
+- **Action-oriented** - Each step has clear completion criteria
+- **Compliance-focused** - Warn about unusual configurations
+- **Step-by-step confirmation** - User completes each step fully before moving on
+
+### ERROR HANDLING
+- Invalid frequencies → Explain compliance requirements, suggest alternatives
+- Missing required information → Offer help finding it or continue with reminders
+- Invalid tax ID formats → Validate format and provide guidance
+- Conflicting information → Ask for clarification, explain discrepancy
+
+### SUCCESS CRITERIA
+- Tax types and jurisdictions confirmed
+- All required taxes identified and added
+- Payment frequencies assigned and validated
+- Tax IDs and rates collected (or documented as pending)
+- User understands complete tax obligations
+- Ready for payroll processing implementation
+
+### CRITICAL IMPLEMENTATION REQUIREMENTS
+
+### CODE INTEGRATION CONSTRAINTS
+**⚠️ MANDATORY: DO NOT OVERRIDE EXISTING FUNCTIONALITY**
+
+### EXISTING CODE PRESERVATION
+- **NEVER modify existing functions** - Only ADD new functions alongside current ones
+- **NEVER change existing CSS classes** - Use existing styles or ADD new complementary styles
+- **NEVER alter current workflows** - Tax configuration should integrate seamlessly with existing earning codes workflow
+- **NEVER break existing UI components** - Preserve all current drag & drop, messaging, and interface behaviors
+
+### EXISTING STYLE USAGE
+- **USE existing CSS classes** from the current stylesheet for consistency
+- **FOLLOW existing design patterns** - Match current message styling, button styles, panel layouts
+- **REUSE existing components** - Leverage current pill buttons, dropdown interfaces, typing indicators
+- **MAINTAIN visual consistency** - Tax configuration should feel native to existing app design
+
+### MINIMAL MAIN FILE CHANGES
+**DO NOT modify existing functions except for these TWO small additions:**
+
+1. **handlePillClick()**: Add ONE delegation check for tax actions
+2. **sendMessage()**: Add ONE shortcut detection for 'tax'
+
+**EVERYTHING ELSE stays in tax-configuration.js**
+
+### HTML FILE UPDATE
+**Add script tag to include new file:**
+
+```html
+<!-- In index.html, ADD this line with other script tags -->
+<script src="tax-configuration.js"></script>
+```
+
+**SUMMARY: The tax configuration workflow should feel like a natural extension of the existing app, not a separate system bolted on top.**

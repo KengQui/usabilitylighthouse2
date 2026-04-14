@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tax Rates Test</title>
+</head>
+<body>
+    <h1>2025 State Tax Rates Verification</h1>
+    <div id="results"></div>
+    
+    <script>
+        // Test data with actual 2025 rates
+        const expectedRates = {
+            'New York': { sui: '4.1', wageBase: '$12,800', sdi: '0.5' },
+            'New Jersey': { sui: '3.1', wageBase: '$43,300' },
+            'Massachusetts': { sui: '2.13', wageBase: '$15,000' },
+            'New Hampshire': { sui: '2.7', wageBase: '$14,000' }
+        };
+        
+        // Load the tax configuration script
+        fetch('/static/tax-configuration.js')
+            .then(response => response.text())
+            .then(scriptContent => {
+                // Extract the rates from the script
+                const nyMatch = scriptContent.match(/state: 'New York'[^}]*suiRate: '([^']+)'[^}]*suiWageBase: '([^']+)'/);
+                const njMatch = scriptContent.match(/state: 'New Jersey'[^}]*suiRate: '([^']+)'[^}]*suiWageBase: '([^']+)'/);
+                const maMatch = scriptContent.match(/state: 'Massachusetts'[^}]*suiRate: '([^']+)'[^}]*suiWageBase: '([^']+)'/);
+                const nhMatch = scriptContent.match(/state: 'New Hampshire'[^}]*suiRate: '([^']+)'[^}]*suiWageBase: '([^']+)'/);
+                
+                let html = '<h2>Results:</h2><ul>';
+                
+                // Check New York
+                if (nyMatch && nyMatch[1] === expectedRates['New York'].sui) {
+                    html += '<li style="color: green;">✓ New York SUI: ' + nyMatch[1] + '% (wage base: ' + nyMatch[2] + ')</li>';
+                } else {
+                    html += '<li style="color: red;">✗ New York SUI mismatch</li>';
+                }
+                
+                // Check New Jersey
+                if (njMatch && njMatch[1] === expectedRates['New Jersey'].sui) {
+                    html += '<li style="color: green;">✓ New Jersey SUI: ' + njMatch[1] + '% (wage base: ' + njMatch[2] + ')</li>';
+                } else {
+                    html += '<li style="color: red;">✗ New Jersey SUI mismatch</li>';
+                }
+                
+                // Check Massachusetts
+                if (maMatch && maMatch[1] === expectedRates['Massachusetts'].sui) {
+                    html += '<li style="color: green;">✓ Massachusetts SUI: ' + maMatch[1] + '% (wage base: ' + maMatch[2] + ')</li>';
+                } else {
+                    html += '<li style="color: red;">✗ Massachusetts SUI mismatch</li>';
+                }
+                
+                // Check New Hampshire
+                if (nhMatch && nhMatch[1] === expectedRates['New Hampshire'].sui) {
+                    html += '<li style="color: green;">✓ New Hampshire SUI: ' + nhMatch[1] + '% (wage base: ' + nhMatch[2] + ')</li>';
+                } else {
+                    html += '<li style="color: red;">✗ New Hampshire SUI mismatch</li>';
+                }
+                
+                html += '</ul>';
+                
+                // Check for wage base display
+                if (scriptContent.includes('New employer rate 2025')) {
+                    html += '<p style="color: green;">✓ "New employer rate 2025" label found</p>';
+                }
+                
+                if (scriptContent.includes('Per employee annually')) {
+                    html += '<p style="color: green;">✓ "Per employee annually" label found</p>';
+                }
+                
+                document.getElementById('results').innerHTML = html;
+            })
+            .catch(error => {
+                document.getElementById('results').innerHTML = '<p style="color: red;">Error: ' + error + '</p>';
+            });
+    </script>
+</body>
+</html>

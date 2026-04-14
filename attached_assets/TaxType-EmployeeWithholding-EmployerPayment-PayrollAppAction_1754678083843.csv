@@ -1,0 +1,7 @@
+"Tax Type","Employee Withholding?","Employer Payment?","Payroll App Action"
+"SUTA – ER SUTA Maine","No","Yes","Calculate & remit quarterly"
+"FUTA_CR – FUTA Credit (Maine)","No","No (fed only)","Informational only"
+"SIT – Maine","Yes","No","Withhold & remit to MRS"
+"SUTA_SC – Competitive Skills Scholarship Fund","No","Yes","Calculate & remit"
+"FLI – Maine Paid Family & Medical Leave (employee)","Yes (half)","Yes (half)","Withhold, add employer share, remit"
+"SUTA_SC – Unemployment Program Administrative Fund","No","Yes","Calculate & remit"

@@ -1,0 +1,33 @@
+Uncaught ReferenceError: handleWelcomeTextInputReal is not defined
+    at welcome-flow.js:305:33Understand this error
+ProgressManager.js:665 ✅ ProgressManager created successfully
+FloatingRenderer.js:11 🔄 FloatingRenderer.js file is loading...
+FloatingRenderer.js:1027 ✅ FloatingRenderer.js file loaded completely
+script.js:506 Initializing app with full-screen chat onboarding...
+ProgressManager.js:226 Exiting workflow
+ProgressManager.js:398 🚨 ProgressManager hideAllProgress() called
+ProgressManager.js:399 🚨 hideAllProgress called from: Error
+    at ProgressManager.hideAllProgress (https://83223376-09db-4f16-a90d-fd8ef7374f1d-00-14kwi1b4bjq39.worf.replit.dev/static/ProgressManager.js:399:56)
+    at ProgressManager.exitWorkflow (https://83223376-09db-4f16-a90d-fd8ef7374f1d-00-14kwi1b4bjq39.worf.replit.dev/static/ProgressManager.js:232:14)
+    at resetApplicationState (https://83223376-09db-4f16-a90d-fd8ef7374f1d-00-14kwi1b4bjq39.worf.replit.dev/static/script.js:592:32)
+    at HTMLDocument.initializeApp (https://83223376-09db-4f16-a90d-fd8ef7374f1d-00-14kwi1b4bjq39.worf.replit.dev/static/script.js:515:5)
+script.js:595 Application state reset complete
+script.js:518 App initialized with welcome flow
+ProgressManager.js:68 ProgressManager initialized with option: floating
+ProgressManager.js:463 Found Bryte logos: 3
+ProgressManager.js:496 Debug panel setup complete. 3 clickable elements found.
+ProgressManager.js:497 Backup: Press Ctrl+Shift+D to open debug panel
+ProgressManager.js:398 🚨 ProgressManager hideAllProgress() called
+ProgressManager.js:399 🚨 hideAllProgress called from: Error
+    at ProgressManager.hideAllProgress (https://83223376-09db-4f16-a90d-fd8ef7374f1d-00-14kwi1b4bjq39.worf.replit.dev/static/ProgressManager.js:399:56)
+    at ProgressManager.init (https://83223376-09db-4f16-a90d-fd8ef7374f1d-00-14kwi1b4bjq39.worf.replit.dev/static/ProgressManager.js:83:14)
+    at HTMLDocument.<anonymous> (https://83223376-09db-4f16-a90d-fd8ef7374f1d-00-14kwi1b4bjq39.worf.replit.dev/static/ProgressManager.js:61:70)
+ProgressManager.js:123 🔒 Progress bars disabled during welcome flow
+FloatingRenderer.js:55 FloatingRenderer container appended to chat input
+FloatingRenderer.js:70 FloatingRenderer container created
+FloatingRenderer.js:27 FloatingRenderer initialized
+ProgressManager.js:182 ✅ Renderer registered: floating
+FloatingRenderer.js:1008 ✅ FloatingRenderer registered successfully
+ProgressManager.js:108 ✅ Final renderers: Array(1)
+/favicon.ico:1  Failed to load resource: the server responded with a status of 404 (Not Found)Understand this error
+welcome-flow.js:301 Keyboard shortcut: Control
